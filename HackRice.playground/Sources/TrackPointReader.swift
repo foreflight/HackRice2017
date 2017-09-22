@@ -2,18 +2,18 @@ import Foundation
 import CoreLocation
 
 public struct TrackPoint: Decodable {
-    let timestamp: Date
-    let latitude: CLLocationDegrees
-    let longitude: CLLocationDegrees
-    let course: CLLocationDegrees
-    let speed_kts: Double
-    let altitude_ft: Double
-    let pressure_altitude_ft: String
-    let source: Int
-    let accuracy_horiz: Int
-    let accuracy_vert: Int
-    let bank: Double
-    let pitch: Double
+    public let timestamp: Date
+    public let latitude: CLLocationDegrees
+    public let longitude: CLLocationDegrees
+    public let course: CLLocationDegrees
+    public let speed_kts: Double
+    public let altitude_ft: Double
+    public let pressure_altitude_ft: String
+    public let source: Int
+    public let accuracy_horiz: Int
+    public let accuracy_vert: Int
+    public let bank: Double
+    public let pitch: Double
 }
 
 
