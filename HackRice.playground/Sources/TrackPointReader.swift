@@ -16,6 +16,10 @@ public struct TrackPoint: Decodable {
     public let pitch: Double
 }
 
+enum FlightState {
+    case OnTheGround
+    case InTheAir
+}
 
 public func getTrackPoints() -> [TrackPoint] {
     var trackPoints = [TrackPoint]()
@@ -27,5 +31,22 @@ public func getTrackPoints() -> [TrackPoint] {
         }
     }
     return trackPoints
+}
+
+public func takeOffAndLandingTimeStamps(tracklog:Array<TrackPoint>) -> (takeOffTimeStamps:Array<Date>,landingTimeStamps:Array<Date>) {
+    var takeOffTimeStamps: Array<Date> = []
+    var landingTimeStamps: Array<Date> = []
+    var flightState: FlightState = .OnTheGround
+    for currentValue in tracklog {
+        if flightState == .OnTheGround && currentValue.speed_kts > 60 {
+            flightState = .InTheAir
+            takeOffTimeStamps.append(currentValue.timestamp)
+        }
+        else if flightState == .InTheAir && currentValue.speed_kts < 40 {
+            flightState = .OnTheGround
+            landingTimeStamps.append(currentValue.timestamp)
+        }
+    }
+    return (takeOffTimeStamps, landingTimeStamps)
 }
 
