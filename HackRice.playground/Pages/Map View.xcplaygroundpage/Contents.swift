@@ -33,6 +33,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             _ = self.trackPoints //force lazy load
             DispatchQueue.main.async {
                 self.addTrackPointOverlay()
+                self.mapView.visibleMapRect = self.polyline.boundingMapRect
             }
         }
     }
