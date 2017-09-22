@@ -5,6 +5,11 @@ import PlaygroundSupport
 
 class MapViewController: UIViewController, MKMapViewDelegate {
     let mapView = MKMapView(frame: .zero)
+    var polyline = MKPolyline()
+    
+    lazy var trackPoints: [TrackPoint] = {
+        return getTrackPoints()
+    }()
     
     override func loadView() {
         self.view = mapView
@@ -21,6 +26,34 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         mapView.delegate = self
         super.viewDidLoad()
     }
+    
+    func displayTrackPoints() {
+        DispatchQueue.global(qos: .userInitiated).async {
+            _ = self.trackPoints //force lazy load
+            DispatchQueue.main.async {
+                self.addTrackPointOverlay()
+            }
+        }
+    }
+    
+    func addTrackPointOverlay() {
+        polyline = generatePolyline(trackPoints: self.trackPoints)
+        self.mapView.add(polyline)
+    }
+    
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        let overlayRenderer = MKPolylineRenderer(polyline: polyline)
+        return overlayRenderer
+    }
+    
+}
+
+func generatePolyline(trackPoints: [TrackPoint]) -> MKPolyline {
+    let coords: [CLLocationCoordinate2D] = trackPoints.map {
+        CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude)
+    }
+    let polyline = MKPolyline(coordinates: coords, count: coords.count)
+    return polyline
 }
 
 PlaygroundPage.current.liveView = MapViewController(nibName: nil, bundle: nil)
