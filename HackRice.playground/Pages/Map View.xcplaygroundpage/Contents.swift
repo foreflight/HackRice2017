@@ -44,6 +44,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let overlayRenderer = MKPolylineRenderer(polyline: polyline)
+        overlayRenderer.strokeColor = .blue
+        overlayRenderer.lineWidth = 3.0
         return overlayRenderer
     }
     
