@@ -45,6 +45,8 @@ This repository contains a Swift playground, which can be opened using Xcode (fr
 1. Click through the pages in the project navigator to explore the data set.
 1. When you're ready to hack, use the function `getTrackPoints()` to grab an array of `TrackPoint`s containing all the data!
 
+![Playground in action](playground.png)
+
 ## Workshop
 
 Come to our workshop at 11:00 pm on Friday to see a demo of the Swift playground in action.
