@@ -5,7 +5,8 @@ import PlaygroundSupport
 
 class MapViewController: UIViewController, MKMapViewDelegate {
     let mapView = MKMapView(frame: .zero)
-    var polyline = MKPolyline()
+    
+    var basicPolyline = MKPolyline()
     
     override func loadView() {
         self.view = mapView
@@ -20,21 +21,28 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         let coords: [CLLocationCoordinate2D] = points.map {
             CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude)
         }
-        polyline = MKPolyline(coordinates: coords, count: coords.count)
+        basicPolyline = MKPolyline(coordinates: coords, count: coords.count)
         
         // Add polyline to map
-        mapView.add(polyline)
+        mapView.add(basicPolyline)
 
         // Zoom map to fit the points
-        mapView.visibleMapRect = polyline.boundingMapRect
+        mapView.visibleMapRect = basicPolyline.boundingMapRect
     }
     
-    // MKMapView delegate method
+    // MKMapView delegate method.
+    // For each overlay we've added to the mapView,
+    // this method is called to ask how the overlay should be rendered.
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-        let overlayRenderer = MKPolylineRenderer(polyline: polyline)
-        overlayRenderer.strokeColor = .blue
-        overlayRenderer.lineWidth = 3.0
-        return overlayRenderer
+        if overlay as? MKPolyline == basicPolyline {
+            let overlayRenderer = MKPolylineRenderer(polyline: basicPolyline)
+            overlayRenderer.strokeColor = .blue
+            overlayRenderer.lineWidth = 3.0
+            return overlayRenderer
+        }
+        
+        // If we added an overlay and forgot to define a renderer, return an uncustomized renderer.
+        return MKOverlayRenderer(overlay: overlay)
     }
 }
 
