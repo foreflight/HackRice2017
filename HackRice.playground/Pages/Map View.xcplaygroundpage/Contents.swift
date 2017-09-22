@@ -8,14 +8,13 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     override func loadView() {
         self.view = mapView
-        
+
         NSLayoutConstraint.activate(
             [mapView.topAnchor.constraint(equalTo: self.view.topAnchor),
              mapView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
              mapView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
              mapView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)]
         )
-
     }
     
     override func viewDidLoad() {
