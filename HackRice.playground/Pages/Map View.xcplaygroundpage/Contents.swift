@@ -24,6 +24,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     override func viewDidLoad() {
         mapView.delegate = self
+        displayTrackPoints()
         super.viewDidLoad()
     }
     
