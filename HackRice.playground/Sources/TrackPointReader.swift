@@ -33,14 +33,9 @@ public struct TrackPoint: Decodable {
     }
 }
 
-enum FlightState {
-    case OnTheGround
-    case InTheAir
-}
-
 public func getTrackPoints() -> [TrackPoint] {
     var trackPoints = [TrackPoint]()
-    if let fileURL = Bundle.main.url(forResource: "convertcsv", withExtension: "json") {
+    if let fileURL = Bundle.main.url(forResource: "FlightData", withExtension: "json") {
         let data = try! Data(contentsOf: fileURL)
         let decoder = JSONDecoder()
         if let decodedPoints = try? decoder.decode([TrackPoint].self, from: data) {
@@ -51,22 +46,5 @@ public func getTrackPoints() -> [TrackPoint] {
         TrackPoint(trackPointWithBadTimestamp: $0)
     }
     return trackPoints
-}
-
-public func takeOffAndLandingTimeStamps(tracklog:[TrackPoint]) -> (takeOffTimeStamps:[Date],landingTimeStamps:[Date]) {
-    var takeOffTimeStamps: Array<Date> = []
-    var landingTimeStamps: Array<Date> = []
-    var flightState: FlightState = .OnTheGround
-    for currentValue in tracklog {
-        if flightState == .OnTheGround && currentValue.speed_kts > 60 {
-            flightState = .InTheAir
-            takeOffTimeStamps.append(currentValue.timestamp)
-        }
-        else if flightState == .InTheAir && currentValue.speed_kts < 40 {
-            flightState = .OnTheGround
-            landingTimeStamps.append(currentValue.timestamp)
-        }
-    }
-    return (takeOffTimeStamps, landingTimeStamps)
 }
 
