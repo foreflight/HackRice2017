@@ -53,7 +53,7 @@ public func getTrackPoints() -> [TrackPoint] {
     return trackPoints
 }
 
-public func takeOffAndLandingTimeStamps(tracklog:Array<TrackPoint>) -> (takeOffTimeStamps:Array<Date>,landingTimeStamps:Array<Date>) {
+public func takeOffAndLandingTimeStamps(tracklog:[TrackPoint]) -> (takeOffTimeStamps:[Date],landingTimeStamps:[Date]) {
     var takeOffTimeStamps: Array<Date> = []
     var landingTimeStamps: Array<Date> = []
     var flightState: FlightState = .OnTheGround
